@@ -1,0 +1,22 @@
+GET http://localhost:5261/games
+###
+GET http://localhost:5261/games
+###
+POST http://localhost:5261/games
+Content-Type: application/json 
+{
+    "Name" :"Sim1",
+    "Genre": "sim",
+    "Price": 2.99,
+    "releaseDate": "1980, 3,5"
+}
+###
+
+put http://localhost:5261/games/1
+Content-Type: application/json 
+{
+    "Name" :"CSGO",
+    "Genre": "Shoot",
+    "Price": 1.99,
+    "releaseDate": "2025, 3,11"
+}

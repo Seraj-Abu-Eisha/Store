@@ -1,22 +1,28 @@
 GET http://localhost:5261/games
 ###
-GET http://localhost:5261/games
-###
-POST http://localhost:5261/games
-Content-Type: application/json 
-{
-    "Name" :"Sim1",
-    "Genre": "sim",
-    "Price": 2.99,
-    "releaseDate": "1980, 3,5"
-}
+GET http://localhost:5261/games/1
 ###
 
+POST http://localhost:5261/games/
+Content-Type: application/json 
+
+{
+    "name" :"Sim1",
+    "genre": "sim",
+    "price": 2.99,
+    "releaseDate": "1980-03-05"
+}
+
+###
 put http://localhost:5261/games/1
 Content-Type: application/json 
+
 {
-    "Name" :"CSGO",
-    "Genre": "Shoot",
-    "Price": 1.99,
-    "releaseDate": "2025, 3,11"
+    "name" :"CSGO",
+    "genre": "Shoot",
+    "price": 1.99,
+    "releaseDate": "2025-03-11"
 }
+
+###
+DELETE http://localhost:5261/games/1

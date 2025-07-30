@@ -25,3 +25,4 @@ C:\GameStore\Store\obj\Debug\net9.0\refint\Store.dll
 C:\GameStore\Store\obj\Debug\net9.0\Store.pdb
 C:\GameStore\Store\obj\Debug\net9.0\Store.genruntimeconfig.cache
 C:\GameStore\Store\obj\Debug\net9.0\ref\Store.dll
+C:\GameStore\Store\obj\Debug\net9.0\Store.sourcelink.json

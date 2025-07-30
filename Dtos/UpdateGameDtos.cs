@@ -1,4 +1,4 @@
-namespace Store.Dtos;
+namespace Store.Api.Dtos;
 
 public record class UpdateGameDtos(
     string Name,

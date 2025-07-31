@@ -1,5 +1,8 @@
 using System;
+using Store.Api.Data;
 using Store.Api.Dtos;
+using Store.Api.Entities;
+using Store.Api.Mapping;
 namespace Store.Api.Endpoints;
 
 public static class GameEndpoints
@@ -14,37 +17,49 @@ public static class GameEndpoints
     public static RouteGroupBuilder MapGamesEndpoints(this WebApplication app)
     {
         var group = app.MapGroup("games");
-    group.MapGet("/{id}", (int id) => games.Find(game => game.Id == id)).WithName(GetGameEndpointName);
-    group.MapGet("/", () => games);
-    group.MapPost("/", (CreateGameDtos newGame) =>
-{
-    GameDtos game = new(games.Count + 1, newGame.Name, newGame.Genre, newGame.Price, newGame.ReleaseDate);
-    games.Add(game);
-    return Results.CreatedAtRoute(GetGameEndpointName, new { id = game.Id }, game);
-});
+        //Get /games/id
+        group.MapGet("/{id}", (int id) => games.Find(game => game.Id == id))
+        .WithName(GetGameEndpointName);
 
-group.MapPut("/{id}", (int id, UpdateGameDtos updatedGame) =>
-{
-    var index = games.FindIndex(game => game.Id == id);
+        //Get /game/id
+        group.MapGet("/", () => games);
 
-    games[index] = new GameDtos(
-        id,
-        updatedGame.Name,
-        updatedGame.Genre,
-        updatedGame.Price,
-        updatedGame.ReleaseDate
-    );
+        //POST /game
+        group.MapPost("/", (CreateGameDtos newGame, GameStoreContext dbContext) =>{
+            Game game = newGame.ToEntity();
 
-    return Results.NoContent();
-});
+            game.Genre = dbContext.Genres.Find(newGame.GenreId);
 
-group.MapDelete("/{id}", (int id) =>
-{
-    games.RemoveAll(game => game.Id == id);
-    return Results.NoContent();
-});
+            dbContext.Games.Add(game);
 
+            dbContext.SaveChanges();
 
+            return Results.CreatedAtRoute(GetGameEndpointName,
+            new { id = game.Id },
+            game.ToDto());
+    });
+
+        //PUT //game/id
+        group.MapPut("/{id}", (int id, UpdateGameDtos updatedGame) =>{
+            var index = games.FindIndex(game => game.Id == id);
+
+            games[index] = new GameDtos(
+            id,
+            updatedGame.Name,
+            updatedGame.Genre,
+            updatedGame.Price,
+            updatedGame.ReleaseDate
+            );
+
+            return Results.NoContent();
+        });
+
+        //Delete /game/id
+        group.MapDelete("/{id}", (int id) =>
+        {
+            games.RemoveAll(game => game.Id == id);
+            return Results.NoContent();
+        });
         return group;
     }
 }

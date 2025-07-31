@@ -8,7 +8,7 @@ Content-Type: application/json
 
 {
     "name" :"Sim1",
-    "genre": "sim",
+    "genreId": 5,
     "price": 2.99,
     "releaseDate": "1980-03-05"
 }
